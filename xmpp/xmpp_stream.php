@@ -430,9 +430,9 @@ abstract class XMPPStream {
 				
 				// get starttls requirements
 				$starttls = $stanza->exists('starttls', NS_TLS);
-				$required = $starttls ? ($starttls->exists('required') ? true : false) : false;
-				
-				if($starttls && $required) {
+				$required = $starttls ? ($this->force_tls ? true : ($starttls->exists('required') ? true : false)) : false;
+
+				if($required) {
 					$this->send_starttls_pkt();
 					return "wait_for_tls_result";
 				}
