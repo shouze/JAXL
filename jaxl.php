@@ -151,8 +151,11 @@ class JAXL extends XMPPStream {
 		pcntl_signal(SIGTERM, array($this, 'signal_handler'));
 		
 		// save config
-		$this->cfg = $config;
+        $this->cfg = array_merge(array('pass' => null), $config);
 		
+        if(isset($this->cfg['force_tls']))
+            $this->force_tls = $this->cfg['force_tls'];
+
 		// initialize event
 		$this->ev = new JAXLEvent();
 		
