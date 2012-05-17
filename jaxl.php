@@ -37,7 +37,7 @@
 */
 
 declare(ticks = 1);
-define('JAXL_CWD', getcwd());
+define('JAXL_CWD', __DIR__);
 
 require_once JAXL_CWD.'/xmpp/xmpp_stream.php';
 require_once JAXL_CWD.'/core/jaxl_event.php';

@@ -59,7 +59,7 @@ class JAXLXmlStream {
 	}
 	
 	private function init_parser() {
-		$this->depth = -1;
+        $this->depth = -1;
 		$this->parser = xml_parser_create_ns("UTF-8", $this->delimiter);
 		
 		xml_parser_set_option($this->parser, XML_OPTION_CASE_FOLDING, 0);
@@ -72,13 +72,16 @@ class JAXLXmlStream {
 	
 	public function __destruct() {
 		//echo "cleaning up xml parser...\n";
-		@xml_parser_free($this->parser);
+		xml_parser_free($this->parser);
 	}
 	
 	public function reset_parser() {
-		$this->parse_final(null);
-		@xml_parser_free($this->parser);
-		$this->parser = null;
+        $this->parse_final(null);
+        if($this->parser)
+        {
+            //xml_parser_free($this->parser);
+            $this->parser = null;
+        }
 		$this->init_parser();
 	}
 	
@@ -110,14 +113,14 @@ class JAXLXmlStream {
 			}
 			// xml ns
 			else if($k[0] == NS_XML) {
-				unset($attrs[$key]);
+                unset($attrs[$key]);
 				$attrs['xml:'.$k[1]] = $v;
 			}
 			else {
 				echo "==================> unhandled ns prefix on attribute";
 				// remove attribute else will cause error with bad stanza format
 				// report to developer if above error message is ever encountered
-				unset($attrs[$key]);
+                unset($attrs[$key]);
 			}
 		}
 		
